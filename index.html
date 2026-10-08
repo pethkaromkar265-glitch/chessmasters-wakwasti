@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>चेसमास्टर्स वाकवस्ती • ChessMasters Wakwasti</title>
+    <!-- Google Fonts for cool aesthetic Devanagari & Modern Sans typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Rozha+One&family=Tiro+Devanagari+Hindi:ital@0;1&family=Outfit:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="coastal">
+    <!-- Scenic Background from Far Stellar with subtle cinematic overlay -->
+    <div class="scenic-photo-bg"></div>
+    <div class="cinematic-vignette"></div>
+
+    <!-- Drag-and-drop Ghost element -->
+    <div id="drag-ghost"></div>
+
+    <!-- Top Floating Navigation Strip -->
+    <nav class="top-nav-bar">
+        <div class="nav-pill pill-online">
+            <span class="pulse-cyan"></span>
+            <span>1,175 online</span>
+        </div>
+
+        <div class="nav-center">
+            <button class="nav-pill pill-action" id="theme-toggle-btn" title="Change Board Theme">
+                <span>🎨 Change Theme</span>
+            </button>
+        </div>
+
+        <div class="nav-right">
+            <div class="nav-pill pill-credit" title="Background Photo by Far Stellar">
+                <span>📷 Far Stellar</span>
+            </div>
+            <button class="nav-pill pill-action" id="btn-how-to-play">About</button>
+            <button class="nav-pill pill-action" id="btn-faq">FAQ</button>
+        </div>
+    </nav>
+
+    <!-- Hero Brand Section with Cool Aesthetic Devanagari Title -->
+    <header class="hero-brand-section">
+        <div class="hero-titles">
+            <h1 class="brand-devanagari">चेसमास्टर्स वाकवस्ती</h1>
+            <h2 class="brand-english">CHESSMASTERS WAKWASTI</h2>
+            <p class="brand-author">made by omkar with <span class="heart-pulse">❤️</span></p>
+        </div>
+
+        <!-- Floating Action Pills Bar -->
+        <div class="hero-pills-bar">
+            <button class="hero-pill" id="pill-music-lounge">
+                <span>📻 90s Hindi Radio (100)</span>
+            </button>
+            <button class="hero-pill" id="pill-baarish">
+                <span>🌧️ Baarish?</span>
+            </button>
+            <button class="hero-pill" id="pill-mode-toggle">
+                <span>🤖 Play vs AI</span>
+            </button>
+            <button class="hero-pill" id="pill-share">
+                <span>💬 Share</span>
+            </button>
+            <div class="hero-pill pill-live">
+                <span class="live-indicator"></span>
+                <span>Live Game</span>
+                <span class="badge-count" id="badge-live-count">White</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Chess Game Section -->
+    <main class="app-layout">
+        <!-- Left / Center: Chessboard & Players -->
+        <section class="board-section">
+            <!-- Top Player Strip -->
+            <div class="player-strip" id="top-player-strip">
+                <div class="player-info">
+                    <div class="avatar-badge black" id="top-avatar">♟</div>
+                    <div class="player-name-wrap">
+                        <span class="player-name" id="top-player-name">StockBot (Medium)</span>
+                        <span class="player-status-tag" id="top-player-tag">Computer AI</span>
+                    </div>
+                    <div class="turn-pill" id="top-pill">
+                        <div class="pulse-dot"></div>
+                        <span>Turn</span>
+                    </div>
+                </div>
+                <div class="player-right">
+                    <div class="captured-tray" id="top-captured"></div>
+                    <span class="score-diff" id="top-score"></span>
+                    <div class="clock vintage-led" id="top-clock">05:00</div>
+                </div>
+            </div>
+
+            <!-- 8x8 Board Container -->
+            <div class="board-wrapper">
+                <div id="chessboard"></div>
+            </div>
+
+            <!-- Bottom Player Strip -->
+            <div class="player-strip" id="bottom-player-strip">
+                <div class="player-info">
+                    <div class="avatar-badge white" id="bottom-avatar">♙</div>
+                    <div class="player-name-wrap">
+                        <span class="player-name" id="bottom-player-name">You (White)</span>
+                        <span class="player-status-tag" id="bottom-player-tag">Player</span>
+                    </div>
+                    <div class="turn-pill" id="bottom-pill">
+                        <div class="pulse-dot"></div>
+                        <span>Turn</span>
+                    </div>
+                </div>
+                <div class="player-right">
+                    <div class="captured-tray" id="bottom-captured"></div>
+                    <span class="score-diff" id="bottom-score"></span>
+                    <div class="clock vintage-led" id="bottom-clock">05:00</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right: Control Panel, Game Info, and Move History -->
+        <section class="sidebar-section">
+            <!-- Status Card -->
+            <div class="panel-card glass-panel">
+                <div class="card-title">
+                    <span>⚔️ Game Status</span>
+                </div>
+                <div id="status-banner">White's turn to move</div>
+
+                <div class="btn-group">
+                    <button id="btn-new-game" class="btn btn-teal" title="New Game (N)">✨ New Game</button>
+                    <button id="btn-undo" class="btn btn-translucent" title="Undo Move (U)">↩️ Undo</button>
+                    <button id="btn-flip" class="btn btn-translucent" title="Flip Board (F)">🔄 Flip</button>
+                </div>
+            </div>
+
+            <!-- Match Options Card -->
+            <div class="panel-card glass-panel">
+                <div class="card-title">
+                    <span>⚙️ Match Settings</span>
+                </div>
+                <div class="control-grid">
+                    <div class="control-item">
+                        <label class="control-label" for="game-mode-select">Game Mode</label>
+                        <select id="game-mode-select" class="control-select">
+                            <option value="ai" selected>Play vs Computer</option>
+                            <option value="pvp">Pass & Play (2-Player)</option>
+                        </select>
+                    </div>
+                    <div class="control-item">
+                        <label class="control-label" for="difficulty-select">AI Level</label>
+                        <select id="difficulty-select" class="control-select">
+                            <option value="easy">Easy (Beginner)</option>
+                            <option value="medium" selected>Medium (Intermediate)</option>
+                            <option value="hard">Hard (Advanced)</option>
+                        </select>
+                    </div>
+                    <div class="control-item">
+                        <label class="control-label" for="time-control-select">Time Control</label>
+                        <select id="time-control-select" class="control-select">
+                            <option value="180">3 min (Blitz)</option>
+                            <option value="300" selected>5 min (Rapid)</option>
+                            <option value="600">10 min</option>
+                            <option value="0">Unlimited (No Timer)</option>
+                        </select>
+                    </div>
+                    <div class="control-item" id="player-color-group">
+                        <label class="control-label" for="player-color-select">Play As</label>
+                        <select id="player-color-select" class="control-select">
+                            <option value="w" selected>White (First Move)</option>
+                            <option value="b">Black (Second Move)</option>
+                        </select>
+                    </div>
+                    <div class="control-item full-width-item">
+                        <label class="control-label" for="theme-select">Board Style</label>
+                        <select id="theme-select" class="control-select">
+                            <option value="coastal" selected>Coastal Teal & Slate (Photo Match)</option>
+                            <option value="emerald">Emerald Classic</option>
+                            <option value="wood">Warm Walnut</option>
+                            <option value="slate">Midnight Slate</option>
+                            <option value="terracotta">Terracotta Heritage</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Move History Card -->
+            <div class="panel-card glass-panel">
+                <div class="card-title">
+                    <span>📜 Move History (PGN)</span>
+                </div>
+                <div class="history-container" id="history-scroll-box">
+                    <div id="empty-history" class="empty-history">No moves played yet</div>
+                    <table class="move-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 40px;">#</th>
+                                <th>White</th>
+                                <th>Black</th>
+                            </tr>
+                        </thead>
+                        <tbody id="move-history-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Floating Retro Ambient Radio Player (90s Hindi Nostalgia Edition) -->
+    <div class="retro-audio-wrapper">
+        <div class="retro-player-bar">
+            <div class="player-left">
+                <div class="album-art" id="album-art-icon" title="Vinyl Player">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="vinyl-svg">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <line x1="12" y1="2" x2="12" y2="4"></line>
+                    </svg>
+                </div>
+                <div class="track-details">
+                    <div class="track-title" id="player-track-title">Kisi Din Banoongi Main</div>
+                    <div class="track-artist" id="player-track-artist">90s Hindi Radio • Raja • Madhuri Dixit</div>
+                    <div class="progress-wrap">
+                        <span class="track-time-cur" id="player-time-cur">0:00</span>
+                        <div class="progress-bar-bg" id="player-progress-bg">
+                            <div class="progress-bar-fill" id="player-progress-fill" style="width: 0%;"></div>
+                        </div>
+                        <span class="track-time-total" id="player-time-total">--:--</span>
+                    </div>
+                </div>
+            </div>
+            <div class="player-controls">
+                <button class="ctrl-btn" id="btn-shuffle-track" title="Toggle Shuffle (Random 90s Hit)">🔀</button>
+                <button class="ctrl-btn" id="btn-prev-track" title="Previous Song">⏮</button>
+                <button class="ctrl-play-btn" id="btn-play-track" title="Play / Pause Song">▶</button>
+                <button class="ctrl-btn" id="btn-next-track" title="Next Song">⏭</button>
+                <button class="ctrl-btn" id="btn-open-lounge" title="100 Songs Playlist">📜</button>
+                <button class="ctrl-btn" id="btn-mute" title="Toggle Move Sounds">🔊</button>
+            </div>
+        </div>
+        <div class="retro-footer">
+            <span>Photo by <strong>Far Stellar</strong> • Made by <strong>Omkar</strong> with ❤️</span>
+            <div class="scroll-hint">SCROLL <span class="arrow-down">↓</span></div>
+        </div>
+    </div>
+
+    <!-- Hidden YouTube IFrame Player Container -->
+    <div id="yt-player-container" style="position: fixed; top: -9999px; left: -9999px; width: 200px; height: 200px; opacity: 0; pointer-events: none; z-index: -999;"></div>
+
+    <!-- Music Lounge Modal (Dedicated 90s Hindi Nostalgia Playlist) -->
+    <div class="modal-backdrop" id="music-lounge-modal">
+        <div class="modal-content glass-modal music-modal">
+            <div class="music-modal-header">
+                <div class="music-modal-title">
+                    <span class="music-icon">📻</span>
+                    <div>
+                        <h3>90s Nostalgic Hindi Radio</h3>
+                        <p class="music-sub">वाकवस्ती स्पेशल • Barbershop & Chai Tapri Nostalgia (100 Songs)</p>
+                    </div>
+                </div>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <a href="https://youtube.com/playlist?list=PLq-bT4s33RYADNkcClDkLPovaKJx0HTDM" target="_blank" rel="noopener" class="yt-link-badge" title="Open Official Playlist on YouTube">🔗 YouTube</a>
+                    <button class="modal-close-btn" id="btn-close-music">&times;</button>
+                </div>
+            </div>
+
+            <!-- Playlist Controls Bar -->
+            <div class="playlist-controls-bar">
+                <div class="search-box-wrap">
+                    <input type="text" id="playlist-search-input" class="playlist-search-input" placeholder="🔍 Search among 100 songs (e.g. Madhuri, Aashiqui, Kumar Sanu, Dhadkan)...">
+                </div>
+                <div class="playlist-quick-actions">
+                    <button id="btn-modal-shuffle" class="btn btn-translucent btn-sm" title="Toggle Shuffle Mode">🔀 Shuffle</button>
+                    <div class="volume-slider-compact">
+                        <span class="vol-icon">🔊</span>
+                        <input type="range" min="0" max="100" value="75" class="vol-slider" id="yt-volume-slider">
+                        <span class="vol-text" id="yt-vol-val">75%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="playlist-count-bar">
+                <span id="playlist-count-text">100 Songs in Playlist</span>
+                <span class="playlist-hint">Tap any song to play immediately while making moves</span>
+            </div>
+
+            <!-- Scrollable 100-Track List -->
+            <div class="playlist-tracks-container" id="playlist-tracks-list">
+                <!-- Injected via JavaScript from playlist-tracks.js -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Pawn Promotion Modal -->
+    <div class="modal-backdrop" id="promo-modal">
+        <div class="modal-content glass-modal">
+            <h3>Pawn Promotion</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 4px;">Choose a piece to promote your pawn:</p>
+            <div class="promo-grid" id="promo-grid"></div>
+        </div>
+    </div>
+
+    <!-- Game Over Modal -->
+    <div class="modal-backdrop" id="game-over-modal">
+        <div class="modal-content glass-modal">
+            <div class="game-over-icon" id="game-over-icon">🏆</div>
+            <div class="game-over-title" id="game-over-title">White Wins!</div>
+            <div class="game-over-reason" id="game-over-reason">White wins by checkmate.</div>
+            <button id="btn-rematch" class="btn btn-teal" style="width: 100%; padding: 0.75rem; margin-top: 1rem;">Play Again</button>
+        </div>
+    </div>
+
+    <!-- Info / About Modal -->
+    <div class="modal-backdrop" id="info-modal">
+        <div class="modal-content glass-modal" style="text-align: left;">
+            <h3 style="text-align: center; margin-bottom: 0.35rem; font-family: 'Yatra One', cursive; font-size: 1.6rem; color: #a5f3fc;">चेसमास्टर्स वाकवस्ती</h3>
+            <p style="text-align: center; color: var(--accent-cyan); font-size: 0.85rem; margin-bottom: 1rem;">made by omkar with ❤️</p>
+            <p style="font-size: 0.9rem; color: #e2e8f0; line-height: 1.5; margin-bottom: 0.75rem;">
+                Welcome to <strong>ChessMasters Wakwasti</strong>, an atmospheric urban chess experience designed by Omkar.
+            </p>
+            <ul style="font-size: 0.85rem; color: #cbd5e1; line-height: 1.6; padding-left: 1.2rem; margin-bottom: 1rem;">
+                <li><strong>Background Photography</strong>: Credits to <em>Far Stellar</em> for the atmospheric morning cycling capture.</li>
+                <li><strong>Typography</strong>: Custom aesthetic Devanagari calligraphy font styling (Yatra One).</li>
+                <li><strong>Background Music API</strong>: Integrated YouTube IFrame Player API and Spotify Lounge for continuous music while playing.</li>
+                <li><strong>Game Modes</strong>: Play vs smart AI (3 difficulty levels) or local 2-Player Pass & Play.</li>
+                <li><strong>Mobile Optimized</strong>: Responsive portrait mode with touch drag-and-drop and tap-to-move.</li>
+            </ul>
+            <button class="btn btn-teal" style="width: 100%;" id="btn-close-info">Got it!</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="chess-engine.js"></script>
+    <script src="pieces.js"></script>
+    <script src="audio.js"></script>
+    <script src="playlist-tracks.js"></script>
+    <script src="music-manager.js"></script>
+    <script src="ai.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
